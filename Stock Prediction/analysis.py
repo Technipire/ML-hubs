@@ -13,6 +13,27 @@ def readFile(filename):
             result[l[0]] = data
     return result
 
+def maxProfit(prices):
+    profit = 0
+    buy = 0
+    sell = 0
+    up = False
+    down = False
+    for i in range(1, len(prices)):
+        if prices[i] > prices[i - 1] and not up:
+            buy = i - 1;
+            up = True;
+            down = False;
+        if prices[i] < prices[i - 1] and not down:
+            sell = i - 1;
+            up = False;
+            down = True;
+            profit += prices[sell] - prices[buy]
+    if buy < len(prices) and up:
+        sell = len(prices) - 1
+        profit += prices[sell] - prices[buy]
+    return profit
+
 def main():
     filename = 'stock_sample.txt'
     samples = readFile(filename)
@@ -28,6 +49,7 @@ def main():
             print 'Not normal distribution'
         else:
             print 'Normal distribution'
+        print 'max profit = ', maxProfit(samples[stock])
     """ plotting
     times = [x for x in range(1, 506)]
     plt.figure()
